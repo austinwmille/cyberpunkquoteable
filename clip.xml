@@ -1,0 +1,35 @@
+import os
+import shutil
+
+# Define the function to generate a clean title for YouTube upload
+def generate_clean_youtube_title(video_file):
+    # Remove the file extension and split by underscores to identify main title segments
+    base_name = os.path.splitext(video_file)[0]
+    # Split the name into parts using underscores
+    parts = base_name.split('_')
+    
+    # Keep only the first part, plus any numeric identifier if present
+    clean_title = parts[0]
+    
+    # If the second part is a number, include it in the title
+    if len(parts) > 1 and parts[1].isdigit():
+        clean_title += f" {parts[1]}"
+
+    return f"Reflections in Neon: {clean_title}"
+
+# Assuming 'video_file' is the name of the video file you're uploading
+video_file = "your_video_file_here.mp4"  # Replace with the actual video file name variable
+title = generate_clean_youtube_title(video_file)  # Generate the clean title for YouTube upload
+
+# Your existing upload code would go here, using 'title' as the title for YouTube upload
+
+# After successful upload, move the file to the specified folder
+uploaded_folder = './uploaded to youtube'
+os.makedirs(uploaded_folder, exist_ok=True)
+
+try:
+    # Move the file after a successful upload
+    shutil.move(video_file, os.path.join(uploaded_folder, os.path.basename(video_file)))
+    print(f"Moved {video_file} to {uploaded_folder}")
+except Exception as e:
+    print(f"Failed to move {video_file} to {uploaded_folder}: {e}")
