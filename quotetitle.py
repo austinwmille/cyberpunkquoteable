@@ -2,7 +2,7 @@ import os
 import re
 
 # Directory containing the .txt files with quotes
-directory = "quotes"  # Replace with your directory path
+directory = "filtered_quotes"  # Replace with your directory path
 
 # Dictionary of keywords with associated titles, ordered by priority
 keywords = {
@@ -33,7 +33,31 @@ keywords = {
     "destiny": "Forging Destiny",
     "peace": "Silent Peace",
     "self": "Discovering the Self",
-    "imagination": "Limits of Imagination"
+    "imagination": "Limits of Imagination",
+    "cyberspace": "Exploring Cyberspace",
+    "quantum": "Quantum Dreams",
+    "hacker": "Code and Chaos",
+    "virtual": "Virtual Horizons",
+    "revolution": "Digital Revolution",
+    "metaverse": "Echoes of the Metaverse",
+    "synth": "Synthesizing the Future",
+    "futureproof": "Futureproofing Reality",
+    "anarchy": "Anarchy in Code",
+    "dystopia": "Visions of Dystopia",
+    "utopia": "A Utopian Dream",
+    "circuitry": "Pulse of Circuitry",
+    "glitch": "Through the Glitch",
+    "resistance": "The Cyber Resistance",
+    "augmented": "Augmenting Reality",
+    "neural": "Neural Connections",
+    "interface": "Interfacing Worlds",
+    "biotech": "Biotech Horizons",
+    "chrome": "Reflections on Chrome",
+    "megacity": "Life in the Megacity",
+    "noir": "Cyber Noir",
+    "shadow": "In the Shadows",
+    "matrix": "Matrix Reflections",
+    "transcendence": "Transcending Boundaries"
     # Add additional keywords with titles as needed
 }
 
@@ -59,7 +83,18 @@ combined_titles = {
     ("knowledge", "mystery"): "Ancient Light",
     ("freedom", "purpose"): "Boundless Intent",
     ("darkness", "journey"): "Walk Through Shadows",
-    ("self", "reflection"): "Mirror of the Unknown"
+    ("self", "reflection"): "Mirror of the Unknown",
+    ("cyberspace", "glitch"): "Glitch in the Network",
+    ("quantum", "neural"): "Neural Quantum Fields",
+    ("virtual", "reality"): "Virtual Realities",
+    ("synth", "metaverse"): "Synthwave Metaverse",
+    ("dystopia", "resistance"): "Dystopian Resistance",
+    ("augmented", "biotech"): "The Augmented Biotech Era",
+    ("matrix", "chrome"): "Chrome and the Matrix",
+    ("shadow", "noir"): "Neon Shadows",
+    ("anarchy", "revolution"): "Anarchy in the Revolution",
+    ("futureproof", "interface"): "Futureproof Interfaces"
+
 }
 
 # Function to generate a title based on found keywords

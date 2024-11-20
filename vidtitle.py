@@ -1,59 +1,62 @@
 import os
 import re
 
-# Directories for the quotes (text files) and videos
-quotes_folder = "./quotes"  # Replace with the path to your quotes folder
-videos_folder = "./output_videos"  # Replace with the path to your videos folder
-
-# List of titles to use for renaming (order must match the order of video files)
-titles = [
-    "Embracing Change to Avoid Disaster",
-    "Life: A Dream Unfolding",
-    "The Essence of Human Behavior",
-    "Changing Circumstances, Changing Attitudes",
-    "Shaping Tomorrow with Today’s Choices",
-    "Daydreams and Hidden Realities",
-    "Awakening Through Inner Vision",
-    "Dreams Over Memories",
-    "From Prisoner of the Past to Architect of the Future",
-    "The Power of a Changed Mind",
-    "Pulse of the Future",
-    "Vision Beyond Horizons",
-    "Strength in Silence",
-    "Journey Through Time",
-    "Reflective Echoes",
-    "Infinite Dreams",
-    "Resilience in Shadows",
-    "Paths of Destiny",
-    "Silent Connections",
-    "Fragments of Knowledge",
-    "Unveiling Mystery",
-    "Embrace the Solitude",
-    "Awakening the Courage Within",
-    "Chasing the Neon Lights"
-]
+# Directories for quotes and videos
+quotes_folder = "./filtered_quotes"
+videos_folder = "./output_videos"
 
 # Function to clean up title for valid filenames
 def clean_title(title):
-    # Remove invalid characters and strip whitespace/newlines
     return re.sub(r'[\\/*?:"<>|\n\r]', "", title).strip()
 
-# Get sorted list of video files in the directory
-video_files = sorted([f for f in os.listdir(videos_folder) if f.endswith((".mp4", ".mov", ".avi"))])  # Update extensions if needed
+# Function to generate a title from a quote
+def generate_title(quote):
+    # Define keywords and titles (from quotetitle.py)
+    keywords = {
+        "change": "Embracing Change",
+        "future": "A Glimpse into Tomorrow",
+        "dream": "Life in Dreams",
+        # Add all other keywords here...
+    }
+    combined_titles = {
+        ("change", "future"): "Change for Tomorrow",
+        ("dream", "technology"): "Technological Dreams",
+        # Add all other combinations here...
+    }
 
-# Check if there’s a mismatch in the number of titles and video files
-if len(titles) != len(video_files):
-    print("The number of titles does not match the number of videos.")
+    # Find matching keywords in the quote
+    found_keywords = [word for word in keywords if re.search(rf"\b{word}\b", quote, re.IGNORECASE)]
+
+    # Determine title
+    if not found_keywords:
+        return "Inspiring Thoughts"
+    if len(found_keywords) == 1:
+        return keywords[found_keywords[0]]
+    for combination, title in combined_titles.items():
+        if all(word in found_keywords for word in combination):
+            return title
+    return "Reflections in Neon"
+
+# Process videos and generate titles
+quote_files = sorted([f for f in os.listdir(quotes_folder) if f.endswith(".txt")])
+video_files = sorted([f for f in os.listdir(videos_folder) if f.endswith((".mp4", ".mov", ".avi"))])
+
+if len(quote_files) != len(video_files):
+    print("The number of quote files does not match the number of videos.")
 else:
-    # Rename each video based on the corresponding title
-    for i in range(len(video_files)):
-        # Clean the title and create the new video filename
-        clean_filename = clean_title(titles[i]) + os.path.splitext(video_files[i])[1]
-        video_path = os.path.join(videos_folder, video_files[i])
-        new_video_path = os.path.join(videos_folder, clean_filename)
-        
+    for i, video in enumerate(video_files):
+        # Read the quote text
+        with open(os.path.join(quotes_folder, quote_files[i]), "r", encoding="utf-8") as file:
+            quote_text = file.read().strip()
+
+        # Generate title from the quote
+        title = generate_title(quote_text)
+        clean_filename = clean_title(title) + os.path.splitext(video)[1]
+
         # Rename the video file
+        video_path = os.path.join(videos_folder, video)
+        new_video_path = os.path.join(videos_folder, clean_filename)
         os.rename(video_path, new_video_path)
-        print(f"Renamed '{video_files[i]}' to '{clean_filename}'")
+        print(f"Renamed '{video}' to '{clean_filename}'")
 
     print("All videos have been renamed successfully.")

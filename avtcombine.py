@@ -7,8 +7,8 @@ import subprocess
 import textwrap
 
 # Directories for your assets
-quotes_folder = "quotes"
-videos_folder = "videos"
+quotes_folder = "filtered_quotes"
+videos_folder = "cyberpunk"
 audio_folder = "audio"
 output_folder = "output_videos"
 os.makedirs(output_folder, exist_ok=True)
@@ -37,7 +37,7 @@ def create_video_with_text_overlay(quote_text, background_video, background_musi
         "-vf",
         "crop=ih*9/16:ih, "  # Crop the video to 9:16 aspect ratio without stretching
         "scale=1080:1920, "  # Scale to fit 1080x1920 for vertical aspect
-        "drawtext=fontfile='C\\:/Windows/Fonts/arial.ttf':"
+        "drawtext=fontfile='C\\:/Windows/Fonts/Gabriola.ttf':"
         "textfile=temp_quote.txt:"
         "fontcolor=white:"
         "fontsize=36:"
